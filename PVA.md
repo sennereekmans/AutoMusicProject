@@ -1,4 +1,3 @@
-# AutoMusicProject
 # 🎵 Automatische AI-muziekworkflow (Gratis)
 
 ## ✅ Workflow Overzicht
