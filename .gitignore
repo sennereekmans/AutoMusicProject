@@ -1,0 +1,54 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv/
+env/
+venv/
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pkl
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# =========================
+# Node / Vue
+# =========================
+node_modules/
+dist/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vite/
+.vscode/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# =========================
+# IDE / Editor
+# =========================
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.vscode/
+*.history/
+*.vscode/settings.json
+
+.env
