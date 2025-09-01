@@ -1,0 +1,5 @@
+API Base URL: 
+- https://api.sunoapi.org
+
+Authentication Header: 
+- Authorization: Bearer YOUR_API_KEY
