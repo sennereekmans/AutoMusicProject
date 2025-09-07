@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h2 class="title">Extend Music</h2>
+        <div class="header">
+      <back-button class="back-arrow"/>
+      <h2 class="title">Extend Music</h2>
+    </div>
     <form @submit.prevent="submit">
       <input v-model="audioId" placeholder="Audio ID" class="border p-1 mb-2 w-full"/>
       <input v-model.number="continueAt" placeholder="Continue at (seconds)" type="number" class="border p-1 mb-2 w-full"/>
@@ -19,6 +22,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import BackButton from "@/components/BackButton.vue";
 
 const audioId = ref('')
 const continueAt = ref(0)
@@ -38,6 +42,12 @@ const submit = async () => {
       title: title.value,
       defaultParamFlag: defaultParamFlag.value
     })
+    
+    const taskId = res.data?.data?.taskId
+    if (taskId) {
+      localStorage.setItem(title, taskId)
+    }
+    
     result.value = JSON.stringify(res.data, null, 2)
   } catch (e) {
     result.value = e.response?.data || e.message

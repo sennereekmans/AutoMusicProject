@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h2 class="title">Upload & Cover</h2>
+        <div class="header">
+      <back-button class="back-arrow"/>
+      <h2 class="title">Upload & Cover</h2>
+    </div>
     <form @submit.prevent="submit">
       <input v-model="uploadUrl" placeholder="Upload URL" class="border p-1 mb-2 w-full"/>
       <input v-model="prompt" placeholder="Prompt" class="border p-1 mb-2 w-full"/>
@@ -21,6 +24,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import BackButton from "@/components/BackButton.vue";
 
 const uploadUrl = ref('')
 const prompt = ref('')
@@ -40,6 +44,12 @@ const submit = async () => {
       customMode: customMode.value,
       instrumental: instrumental.value
     })
+
+    const taskId = res.data?.data?.taskId
+    if (taskId) {
+      localStorage.setItem(title, taskId)
+    }
+    
     result.value = JSON.stringify(res.data, null, 2)
   } catch (e) {
     result.value = e.response?.data || e.message

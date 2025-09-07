@@ -17,8 +17,23 @@ body {
 .container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 30px;
+  padding: 10px 30px 30px 30px;
   border-radius: 10px; 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.back-arrow {
+  position: absolute;
+  left: 0;
+  margin-bottom: 25px;
+  cursor: pointer;
 }
 
 /* Headings */
@@ -59,4 +74,19 @@ textarea {
 /* Section spacing */
 section {
   margin-bottom: 40px;
+}
+
+textarea.lyrics {
+  width: 100%;
+  height: 150px;
+  resize: vertical;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+}
+
+select {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
 }

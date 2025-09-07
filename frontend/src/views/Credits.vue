@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h2 class="title">Credits</h2>
+        <div class="header">
+      <back-button class="back-arrow"/>
+      <h2 class="title">Credits</h2>
+    </div>
     <button @click="getCredits" class="bg-green-500 text-white px-2 py-1 mb-2">Check Credits</button>
     <pre>{{ result }}</pre>
   </div>
@@ -9,6 +12,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import BackButton from "@/components/BackButton.vue";
 
 const result = ref('')
 
