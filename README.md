@@ -7,11 +7,10 @@ AutoMusicProject is a modern web application that allows users to generate compl
 
 ## Demo
 ### Demo-video
-[Demo video](readme-media/demo-video.mp4)
+[![Bekijk de demo](https://img.youtube.com/vi/fnBoELN9WsA/hqdefault.jpg)](https://www.youtube.com/watch?v=fnBoELN9WsA)
 
 ### Music-example
-[Listen to the generated music](readme-media/Code%20Beats%20Unleashed.mp3)
-[Watch the music video](readme-media/Code%20Beats%20Unleashed.mp4)
+[![Listen to the example](https://img.youtube.com/vi/YHf7ELcRE3g/hqdefault.jpg)](https://www.youtube.com/watch?v=YHf7ELcRE3g)
 
 
  ---
