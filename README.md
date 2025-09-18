@@ -1,10 +1,21 @@
 # AutoMusicProject 🎵🤖
 
-[GitHub Repository](https://github.com/sennereekmans/AutoMusicProject)
-
 AutoMusicProject is a modern web application that allows users to generate complete music productions, from **lyrics to music video**, fully automated using AI models from [Suno API](https://sunoapi.org/). The project combines state-of-the-art web development with powerful AI integrations and is designed to provide a smooth, interactive experience.
 
 ---
+
+
+## Demo
+### Demo-video
+[Demo video](readme-media/demo-video.mp4)
+
+### Music-example
+[Listen to the generated music](readme-media/Code%20Beats%20Unleashed.mp3)
+[Watch the music video](readme-media/Code%20Beats%20Unleashed.mp4)
+
+
+ ---
+
 
 ## Features
 
@@ -31,23 +42,23 @@ AutoMusicProject is built with a modern and scalable tech stack:
 
 1. **Lyrics Generation**  
    - The user inputs a topic for the song.  
-   - The backend sends the prompt to the Suno API and receives the generated lyrics.
-   - ![generate lyrics](readme-media/lyrics.png)
+    The backend sends the prompt to the Suno API and receives the generated lyrics.
+    ![generate lyrics](readme-media/lyrics.png)
 2. **Song Creation**  
    - Based on the lyrics, the user selects a music genre.  
    - The backend generates the song using the selected genre and lyrics.
-   - ![generate lyrics](readme-media/song1.png)
-   - ![generate lyrics](readme-media/song2.png)
-   - ![generate lyrics](readme-media/song3.png)
+    ![generate lyrics](readme-media/song1.png)
+    ![generate lyrics](readme-media/song2.png)
+    ![generate lyrics](readme-media/song3.png)
 
 3. **Music Video Generation**  
    - With the generated song, the user can create a music video.  
    - The video is generated via the Suno API and can be viewed immediately.
-   - ![generate lyrics](readme-media/musicvideo.png)
+    ![generate lyrics](readme-media/musicvideo.png)
 
 4. **Credit Management**  
    - The user can check remaining Suno API credits to keep track of usage.
-   - - ![generate lyrics](readme-media/credits.png)
+    ![generate lyrics](readme-media/credits.png)
 
 ---
 
