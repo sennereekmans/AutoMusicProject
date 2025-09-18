@@ -68,3 +68,8 @@ git clone https://github.com/sennereekmans/AutoMusicProject.git
 cd AutoMusicProject
 docker-compose up --build
 ```
+To let the application work, you need an account on sunoapi.org and copy the api-key in an .env file in the backend folder like this:
+```bash
+API_KEY=[YOUR KEY HERE]
+SUNO_API_URL=https://api.sunoapi.org/api/v1/generate
+```
