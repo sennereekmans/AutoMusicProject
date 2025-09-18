@@ -16,8 +16,8 @@
                class="" />
         <input v-model="style" placeholder="Style" 
                class="" />
-        <input v-model="prompt" placeholder="Lyrics" 
-              class="lyrics" />
+      <textarea v-model="prompt" placeholder="Lyrics" 
+               class="lyrics" rows="6"></textarea>
       </div>
 
       <div class="checkbox">
@@ -43,11 +43,10 @@
         Generate
       </button>
     </form>
-
+      
     <div v-if="songs.length">
       <SongCard v-for="song in songs" :key="song.id" :song="song" />
     </div>
-    <pre class="">{{ result }}</pre>
   </div>
 </template>
 

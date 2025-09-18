@@ -1,6 +1,7 @@
 <template>
   <div class="song-card">
     <h3>{{ song.title }}</h3>
+    <p><strong>AudioId:</strong> {{ song.id }}</p>
     <p><strong>Tags:</strong> {{ song.tags }}</p>
     <p><strong>Lyrics:</strong></p>
     <pre class="lyrics">{{ song.prompt }}</pre>

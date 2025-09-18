@@ -1,0 +1,89 @@
+Energetic drum & bass lyrics about the euphoria of finishing a coding project that can generate music with AI
+taskId: c12b980bb933795bc97ea3aa640a7112
+audioID: b76c9a6e-9266-493b-be88-cf8df42ecd16
+Code Beats Unleashed
+[Verse]
+Lines of logic racing through my head
+Binary whispers
+What’s left unsaid
+Electric sparks
+My heart’s on fire
+Every keystroke builds my empire
+
+[Chorus]
+Code beats unleashed
+Feel the rush
+Feel the glow
+AI spins the music
+Let the rhythm flow
+We’re the architects of sound
+Let the circuits sing
+Euphoria rising
+This is everything
+
+[Verse 2]
+Loops and layers
+A symphony of math
+Chasing bugs down the endless path
+From chaos comes this perfect sound
+In the code
+I’ve finally found
+
+[Prechorus]
+Ones and zeroes dance in time
+Infinite worlds in every line
+
+[Chorus]
+Code beats unleashed
+Feel the rush
+Feel the glow
+AI spins the music
+Let the rhythm flow
+We’re the architects of sound
+Let the circuits sing
+Euphoria rising
+This is everything
+
+[Bridge]
+Every crash
+Every fail
+Every sleepless night
+Led to this
+The dawn of digital light
+A melody born from the void we create
+This is the moment we dominate fate
+
+
+
+{ "code": 200, "msg": "success", "data": { "taskId": "e8c140e2cb836e0be449d411df2500a9", "musicId": "b76c9a6e-9266-493b-be88-cf8df42ecd16", "callbackUrl": "http://localhost:8000/song-callback", "musicIndex": 0, "completeTime": 1758198519000, "response": { "videoUrl": "https://tempfile.aiquickdraw.com/s/e8c140e2cb836e0be449d411df2500a9.mp4" }, "successFlag": "SUCCESS", "createTime": 1758198464000, "errorCode": null, "errorMessage": null } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

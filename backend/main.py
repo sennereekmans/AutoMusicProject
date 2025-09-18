@@ -60,53 +60,14 @@ class CustomSongRequest(BaseModel):
     audioWeight: Optional[float] = None
     callBackUrl: Optional[HttpUrl] = None
 
-class MusicExtendRequest(BaseModel):
-    defaultParamFlag: bool = Field(..., description="True: custom params, False: original audio params")
-    audioId: str = Field(..., description="Audio ID of the track to extend")
-    model: ModelVersion = Field(..., description="Model version consistent with source track")
-    callBackUrl: Optional[HttpUrl] = None
-
-    # Alleen verplicht als defaultParamFlag == True
-    prompt: str | None = Field(None, max_length=3000)
-    style: str | None = Field(None, max_length=200)
-    title: str | None = Field(None, max_length=80)
-    continueAt: int | None = Field(None, gt=0, description="Start time in seconds for extension")
-
-    # Optioneel
-    negativeTags: str | None = None
-    vocalGender: VocalGender | None = None
-    styleWeight: float | None = Field(None, ge=0, le=1)
-    weirdnessConstraint: float | None = Field(None, ge=0, le=1)
-    audioWeight: float | None = Field(None, ge=0, le=1)
-
-class UploadCoverRequest(BaseModel):
-    uploadUrl: HttpUrl = Field(..., description="URL waar het audiobestand staat (max 8 minuten)")
-    customMode: bool = Field(..., description="True: Custom mode, False: Non-custom mode")
-    instrumental: bool = Field(..., description="True: Instrumentaal (geen lyrics)")
-
-    # Altijd verplicht
-    model: ModelVersion
-    callBackUrl: HttpUrl
-
-    # Alleen verplicht als customMode == False → prompt verplicht (max 400 chars)
-    # Alleen verplicht als customMode == True:
-    #  - Als instrumental=True: style en title verplicht
-    #  - Als instrumental=False: style, title, prompt verplicht (prompt = lyrics)
-    prompt: str | None = None
-    style: str | None = None
-    title: str | None = None
-
-    # Optioneel
-    negativeTags: str | None = None
-    vocalGender: VocalGender | None = None
-    styleWeight: float | None = Field(None, ge=0, le=1)
-    weirdnessConstraint: float | None = Field(None, ge=0, le=1)
-    audioWeight: float | None = Field(None, ge=0, le=1)
-
 class LyricsRequest(BaseModel):
     prompt: str = Field(..., max_length=1000)
 
-
+class MusicVideoRequest(BaseModel):
+    taskId: str
+    audioId: str
+    author: Optional[str] = None
+    domainName: Optional[str] = None
 
 # ----------- ENDPOINTS -----------
 @app.post("/generate-song")
@@ -201,58 +162,7 @@ def generateCustomSong(song: CustomSongRequest):
     response2 = poll_music_task(token=API_KEY, task_id=task_id, url="https://api.sunoapi.org/api/v1/generate/record-info")
     return response2
 
-""" @app.post("/generate-music-callback")
-async def handle_callback(request: Request):
-    data = await request.json()  # FastAPI gebruikt async om JSON te lezen
-    
-    code = data.get('code')
-    msg = data.get('msg')
-    callback_data = data.get('data', {})
-    task_id = callback_data.get('task_id')
-    callback_type = callback_data.get('callbackType')
-    music_data = callback_data.get('data', [])
-    
-    print(f"Received music generation callback: {task_id}, type: {callback_type}, status: {code}, message: {msg}")
-    
-    if code == 200:
-        # Task completed successfully
-        print("Music generation completed")
-        
-        print(f"Generated {len(music_data)} music tracks:")
-        for i, music in enumerate(music_data):
-            print(f"Music {i + 1}:")
-            print(f"  Title: {music.get('title')}")
-            print(f"  Duration: {music.get('duration')} seconds")
-            print(f"  Tags: {music.get('tags')}")
-            print(f"  Audio URL: {music.get('audio_url')}")
-            print(f"  Cover URL: {music.get('image_url')}")
-            
-            # Download audio file example
-            try:
-                audio_url = music.get('audio_url')
-                if audio_url:
-                    response = requests.get(audio_url)
-                    if response.status_code == 200:
-                        filename = f"generated_music_{task_id}_{i + 1}.mp3"
-                        with open(filename, "wb") as f:
-                            f.write(response.content)
-                        print(f"Audio saved as {filename}")
-            except Exception as e:
-                print(f"Audio download failed: {e}")
-                
-    else:
-        # Task failed
-        print(f"Music generation failed: {msg}")
-        
-        if code == 400:
-            print("Parameter error or content violation")
-        elif code == 451:
-            print("File download failed")
-        elif code == 500:
-            print("Server internal error")
-    
-    # Return 200 status code to confirm callback received
-    return JSONResponse(content={'status': 'received'}, status_code=200) """
+
 
 @app.get("/check-status/{task_id}")
 def checkStatus(task_id: str):
@@ -266,61 +176,8 @@ def checkStatus(task_id: str):
     else:
         return {"error": "No taskId found. Generate a song first."} 
     
-@app.post("/extend-music")
-def extend_music(req: MusicExtendRequest):
-    # Validatie: als defaultParamFlag True is, moeten extra velden aanwezig zijn
-    if req.defaultParamFlag:
-        if not (req.prompt and req.style and req.title and req.continueAt):
-            raise HTTPException(status_code=400, detail="prompt, style, title en continueAt zijn verplicht wanneer defaultParamFlag True is")
 
-    # Payload bouwen voor Suno API
-    payload = req.dict(exclude_none=True)
-    url = "https://api.sunoapi.org/api/v1/generate/extend"
 
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
-    }
-
-    try:
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-        return response.json()
-    except requests.RequestException as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-
-@app.post("/upload-cover")
-def upload_cover(req: UploadCoverRequest):
-    # Validatie logica
-    if req.customMode:
-        if req.instrumental:
-            if not (req.style and req.title):
-                raise HTTPException(status_code=400, detail="style en title zijn verplicht in customMode + instrumental=True")
-        else:  # instrumental=False
-            if not (req.style and req.title and req.prompt):
-                raise HTTPException(status_code=400, detail="style, title en prompt zijn verplicht in customMode + instrumental=False")
-    else:  # customMode=False
-        if not req.prompt:
-            raise HTTPException(status_code=400, detail="prompt is verplicht als customMode=False")
-
-    # API-call naar Suno
-    url = "https://api.sunoapi.org/api/v1/generate/upload-cover"
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",  # vervang met jouw API key
-        "Content-Type": "application/json"
-    }
-
-    payload = req.dict(exclude_none=True)
-
-    try:
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-        return response.json()
-    except requests.RequestException as e:
-        raise HTTPException(status_code=500, detail=str(e))
     
 @app.post("/lyrics")
 def generate_lyrics(request: LyricsRequest):
@@ -361,11 +218,59 @@ def generate_lyrics(request: LyricsRequest):
 @app.get("/credits")
 def get_credits():
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {API_KEY}"
     }
     url = "https://api.sunoapi.org/api/v1/generate/credit"
     response = requests.get(url, headers=headers)
-    return response
+    return response.json()
+
+
+@app.post("/generate-music-video")
+def generate_music_video(request: MusicVideoRequest):
+    url = "https://api.sunoapi.org/api/v1/mp4/generate"
+
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "taskId": request.taskId,
+        "audioId": request.audioId,
+        "callBackUrl": "http://localhost:8000/song-callback"
+    }
+
+    if request.author:
+        payload["author"] = request.author
+    if request.domainName:
+        payload["domainName"] = request.domainName
+
+    try:
+        print("sending post request for music video")
+        response = requests.post(url, json=payload, headers=headers)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+
+        result = response.json()
+        print("API response JSON:", result)
+        if not result or "data" not in result:
+            raise HTTPException(status_code=500, detail=f"Geen geldige data ontvangen van Suno API: {result}")
+
+        task_id = result["data"].get("taskId")
+        if not task_id:
+            raise HTTPException(status_code=500, detail=f"Geen taskId ontvangen van Suno API: {result}")
+
+        # Poll video task status
+        response2 = poll_video_task(
+            token=API_KEY,
+            task_id=task_id,
+            url="https://api.sunoapi.org/api/v1/mp4/record-info"
+        )
+        return response2
+
+    except requests.RequestException as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ----------- FUNCTIONS -----------    
 def poll_music_task(token: str, task_id: str, url= str, interval: int = 20, max_attempts: int = 50):
@@ -384,6 +289,41 @@ def poll_music_task(token: str, task_id: str, url= str, interval: int = 20, max_
                 continue
 
             status = data.get("data", {}).get("status")
+
+            if status in [
+                "SUCCESS",
+                "GENERATE_AUDIO_FAILED",
+                "CREATE_TASK_FAILED",
+                "CALLBACK_EXCEPTION",
+                "SENSITIVE_WORD_ERROR"
+            ]:
+                return data  # Geef volledige response terug
+
+        except Exception as e:
+            print(f"Error in poll_music_task: {e}")
+
+        time.sleep(interval)
+
+    return {"error": "Timeout: Task did not complete in time"}
+
+
+# ----------- FUNCTIONS -----------    
+def poll_video_task(token: str, task_id: str, url= str, interval: int = 20, max_attempts: int = 50):
+    url1 = url
+    headers = {"Authorization": f"Bearer {token}"}
+    params = {"taskId": task_id}
+
+    for attempt in range(max_attempts):
+        try:
+            response = requests.get(url1, headers=headers, params=params)
+            data = response.json()
+            print(f"[Attempt {attempt+1}] Status: {data.get('data', {}).get('status')}")
+
+            if not data or "data" not in data:
+                time.sleep(interval)
+                continue
+
+            status = data.get("data", {}).get("successFlag")
 
             if status in [
                 "SUCCESS",

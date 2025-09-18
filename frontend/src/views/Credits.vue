@@ -5,7 +5,7 @@
       <h2 class="title">Credits</h2>
     </div>
     <button @click="getCredits" class="bg-green-500 text-white px-2 py-1 mb-2">Check Credits</button>
-    <pre>{{ result }}</pre>
+    <pre>{{ credits }}</pre>
   </div>
 </template>
 
@@ -14,14 +14,15 @@ import { ref } from 'vue'
 import axios from 'axios'
 import BackButton from "@/components/BackButton.vue";
 
-const result = ref('')
-
+const credits = ref('')
 const getCredits = async () => {
   try {
     const res = await axios.get('http://localhost:8000/credits')
-    result.value = JSON.stringify(res.data, null, 2)
+    console.log(res.data)
+    credits.value = `Remaining credits: ${res.data.data}`
   } catch (e) {
-    result.value = e.response?.data || e.message
+    credits.value = e.response?.data || e.message
   }
 }
 </script>
+

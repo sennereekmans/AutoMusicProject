@@ -15,7 +15,6 @@
         :song="song"
       />
     </div>   
-    <pre>{{ result }}</pre>
   </div>
 </template>
 

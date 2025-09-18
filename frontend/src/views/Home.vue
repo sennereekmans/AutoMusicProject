@@ -1,12 +1,11 @@
 <template>
   <div class="container">
     <h1 class="title">🎵 AutoMusicProject 🎵</h1>
-    <h2>Kies een functie:</h2>
+    <h2>Select a feature:</h2>
     <div class="links">
-      <router-link to="/generate-song" class="link-button">Generate Song</router-link>
-      <router-link to="/extend-music" class="link-button">Extend Music</router-link>
-      <router-link to="/upload-cover" class="link-button">Upload Cover</router-link>
       <router-link to="/lyrics" class="link-button">Generate Lyrics</router-link>
+      <router-link to="/generate-song" class="link-button">Generate Song</router-link>
+      <router-link to="/generate-video" class="link-button">Generate Videoclip</router-link>
       <router-link to="/credits" class="link-button">View Credits</router-link>
     </div>
   </div>
@@ -31,14 +30,20 @@
 .container form{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .container form input{
     margin-bottom: 10px;
     padding: 5px; 
     border-radius: 10px; 
+    width: 300px;
 }
+
+.container form input[type="checkbox"] {
+  width: auto;
+}
+
 
 .container form label{
     display: flex;
@@ -48,7 +53,6 @@
 
 .container form label input{
     margin-right: 5px;
-    margin-bottom: 0px;
 }
 
 .title {
@@ -73,6 +77,7 @@
   border-radius: 8px;
   font-weight: bold;
   transition: background-color 0.2s;
+  margin: auto;
 }
 
 .link-button:hover {
